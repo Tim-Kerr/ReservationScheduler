@@ -1,0 +1,24 @@
+{
+  "name": "reserationscheduler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/reservationScheduler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/reservationScheduler input.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tim-Kerr/ReservationScheduler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tim-Kerr/ReservationScheduler/issues"
+  },
+  "homepage": "https://github.com/Tim-Kerr/ReservationScheduler#readme",
+  "dependencies": {
+    "@types/node": "^12.7.3",
+    "node-interval-tree": "^1.3.3"
+  }
+}
