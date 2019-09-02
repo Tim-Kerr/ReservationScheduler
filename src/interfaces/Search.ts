@@ -1,7 +1,6 @@
 import { Moment } from 'moment';
 
-export interface Reservation {
-    campsiteId: number,
+export interface Search {
     startDate: Moment,
     endDate: Moment
 }
