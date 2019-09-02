@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { Input } from './interfaces/Input';
 import { Reservation } from './interfaces/Reservation';
 
-// Consume input json file parsing date strings into Date objects
+// Consume input json file parsing date strings into Moment date objects
 const input: Input = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'),
     (key, value) => {
         if (key === 'startDate') return moment(value);
