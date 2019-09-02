@@ -9,20 +9,19 @@ var searchQuery = input.search;
 var campsites = input.campsites;
 var reservations = input.reservations;
 var availableCampsites = [];
-// Iterate over campsites and check to see if they are able to accommodate a new reservation
-// with the search criteria without producing a 1 day gap 
+// Iterate over campsites and check to see if they are able to accommodate a new reservation with the search criteria without producing a 1 day gap 
 campsites.forEach(function (campsite) {
     var campsiteReservations = reservations.filter(function (r) { return r.campsiteId === campsite.id; });
     // Hydate an interval tree with the existing campsite reservations
     var intervalTree = new node_interval_tree_1.default();
     campsiteReservations.forEach(function (res) {
         var start = moment(res.startDate).valueOf();
-        var end = moment(res.endDate).add(1, 'days').valueOf();
+        var end = moment(res.endDate).add(1, 'days').valueOf(); // End days are inclusive, so add a day to make the math work
         intervalTree.insert(start, end, res);
     });
     // Search the tree for overlapping intervals for the given search query.
-    // Artificially increase the search range by 1 day on both sides of the search interval
-    // in order to detect 1 day gaps.
+    // Artificially increase the search range by 1 day on both sides of the search interval in order to detect 1 day gaps.
+    // Could easily parameterize this search padding based on park gap requirements.
     var searchStart = moment(searchQuery.startDate).subtract(1, 'day').valueOf();
     var searchEnd = moment(searchQuery.endDate).add(2, 'days').valueOf();
     // Filter out overlaps with 0 day gaps
