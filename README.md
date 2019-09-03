@@ -49,3 +49,6 @@ o-------------o                                  o-------------o
 </pre>
 
 Searching for the interval `2018-06-04 - 2018-06-06` in the tree will result in 2 overlaps at `2018-06-03` and `2018-06-08`. These intervals indicate a 1 day gap and cause `Rustic Cabin` to be removed from the results.
+
+## Assumptions
+* It is assumed that all reservations extend throughout the entire day. A reservation can't end/begin in the middle of the day.
