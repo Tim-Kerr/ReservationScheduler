@@ -2,6 +2,7 @@
 * [NodeJS](https://nodejs.org/en/) (JavaScript runtime)
 * [MomentJs](https://momentjs.com/) (Date arithmetic)
 * [node-interval-tree](https://www.npmjs.com/package/node-interval-tree) (Interval Tree implementation in Node)
+* [Jest](https://jestjs.io/en/) (Testing framework)
 
 # Installation
 * Install the latest version of NodeJs [here](https://nodejs.org/en/download/)
@@ -12,8 +13,12 @@
 Option 1: In cmd execute `npm run start` inside the root project folder.
 _This executes the code using the input.json file contained in the root project folder_
  
-Option 2: In cmd execute `node build/ReservationScheduler.js <input_json_filpath>` inside the root project folder
-Example: `node build/ReservationScheduler.js input.json` => Executes the code using the input.json file contained in the root project folder
+Option 2: In cmd execute `node build/start.js <input_json_filpath>` inside the root project folder
+Example: `node build/start.js input.json` => Executes the code using the input.json file contained in the root project folder
+
+# Running the tests
+* In the root project folder in cmd execute `npm run test`
+_This executes the Jest tests located in test/reservationScheduler.test.ts_
 
 # The Solution: [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree)
 Interval trees are a binary search tree (BST) augmentation that allow for detecting overlaps in a set of intervals. Instead of a single node value like in a regular BST, each node in an interval tree contains an interval (min, max) and a max value contained in all of the ranges of its subtrees. These values together can be used to efficiently search the tree and detect interval overlaps. All reservation intervals are added to the interval tree for a given campsite.
@@ -59,3 +64,4 @@ Searching for the interval `2018-06-04 - 2018-06-06` in the tree will result in 
 
 ## Assumptions
 * It is assumed that all reservations extend throughout the entire day. A reservation can't end/begin in the middle of the day.
+* It is assumed reservations have to be at least 1 day long.
