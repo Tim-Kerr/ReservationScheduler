@@ -13,10 +13,8 @@ Example: `node build/ReservationScheduler.js input.json` => Executes the code us
 # The Solution: [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree)
 Interval trees are a BST data structure augmentation that allow for detecting overlaps in a set of intervals. Instead of a single node value like in a regular BST, interval trees contain an interval and a max value contained in the ranges of its subtrees in each node. These values can be used to efficiently search and detect interval overlaps.
 
-In order to detect 1 day gaps formed by the search interval, the search area is artificially increased on both side of the interval in order to detect overlaps.
-
 Consider the following example (Comfy Cabin from `input.json`):
-`Search interval`: 2018-06-04 - 2018-06-06
+Search interval: `2018-06-04 - 2018-06-06`
  <pre>
                      o---Search Interval--o
        o-------------o
@@ -24,7 +22,9 @@ o------o                                  o--------------------o
 |--01--|--02--|--03--|--04--|--05--|--06--|--07--|--08--|--09--|
 </pre>
 
-Interval trees efficiently identify the interval overlaps. Since there are no non-zero overlaps in these intervals `Comfy Cabin` is available during the search criteria.
+Interval trees efficiently identify if an input interval overlaps with any intervals contained in the tree. This becomes very useful when trying to determine if a given search range will fit neatly in the reservation schedule. 
+
+Searching for the interval `2018-06-04 - 2018-06-06` in the tree will result in 2 overlaps at `2018-06-04` and `2018-06-06`. Since these intervals have 0 day gaps this is allowed. The interval fits gaplessly into the schedule. `Comfy Cabin` therefore is included in the search results.
 
 Consider the following example (Rustic Cabin from `input.json`): 
 `Search interval`: 2018-06-04 - 2018-06-06
@@ -38,7 +38,7 @@ o-------------o                                  o-------------o
 
 The search interval produces 2 one day gaps in the schedule given the search interval. This is not allowed.
 
-The interval tree can be used to detect these 1 day gaps by artificically extending the search interval on both sides by 1 day.
+The interval tree can be used to detect these 1 day gaps by artificially extending the search interval on both sides by 1 day.
 
 After extending the search interval by 1 day on each side the diagram becomes:
  <pre>
@@ -48,4 +48,4 @@ o-------------o                                  o-------------o
 |--01--|--02--|--03--|--04--|--05--|--06--|--07--|--08--|--09--|
 </pre>
 
-Now the interval tree detects the 1 day gaps interval overlaps and the campsite will be removed from the results.
+Searching for the interval `2018-06-04 - 2018-06-06` in the tree will result in 2 overlaps at `2018-06-03` and `2018-06-08`. These intervals indicate a 1 day gap and cause `Rustic Cabin` to be removed from the results.
