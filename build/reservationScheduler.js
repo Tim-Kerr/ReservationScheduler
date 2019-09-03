@@ -18,7 +18,7 @@ exports.default = (function (input) {
         var searchEnd = moment(search.endDate).add(1, 'day').valueOf();
         // Filter out overlaps with 0 day gaps
         var overlaps = intervalTree.search(searchStart, searchEnd)
-            .filter(function (overlap) { return (!search.startDate.isSame(overlap.endDate.valueOf()) &&
+            .filter(function (overlap) { return (!search.startDate.isSame(overlap.endDate) &&
             !search.endDate.isSame(overlap.startDate)); });
         // No overlaps indicate no conflicts or 1 day gaps formed with other reservations
         if (overlaps.length === 0)
