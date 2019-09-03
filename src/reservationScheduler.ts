@@ -4,7 +4,8 @@ import * as moment from 'moment';
 import { Input } from './interfaces/Input';
 import { Reservation } from './interfaces/Reservation';
 
-// Consume input json file parsing date strings into Moment date objects
+// Consume input json file and parse date strings into Moment date objects
+// Moment.js wraps native JavaScript dates and exposes a date arithmetic api
 const input: Input = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'),
     (key, value) => {
         if (key === 'startDate') return moment(value);
@@ -20,18 +21,18 @@ const availableCampsites: string[] = [];
 campsites.forEach(campsite => {
     const campsiteReservations = reservations.filter(r => r.campsiteId === campsite.id);
 
-    // Hydate an interval tree with the existing campsite reservations
+    // Hydrate an interval tree with the existing campsite reservations
     const intervalTree = new IntervalTree<Reservation>();
     campsiteReservations.forEach(res => intervalTree.insert(res.startDate.valueOf(), res.endDate.valueOf(), res));
 
     // Search the tree for overlapping intervals for the given search query.
     // Artificially increase the search range by 1 day on both sides of the search interval in order to detect 1 day gaps.
     // Could easily parameterize this search padding based on park gap requirements.
-    let searchStart = moment(search.startDate).subtract(1, 'day').valueOf();
-    let searchEnd = moment(search.endDate).add(1, 'day').valueOf();
+    const searchStart = moment(search.startDate).subtract(1, 'day').valueOf();
+    const searchEnd = moment(search.endDate).add(1, 'day').valueOf();
 
     // Filter out overlaps with 0 day gaps
-    let overlaps = intervalTree.search(searchStart, searchEnd)
+    const overlaps = intervalTree.search(searchStart, searchEnd)
         .filter(overlap => (!search.startDate.isSame(overlap.endDate.valueOf()) &&
             !search.endDate.isSame(overlap.startDate)));
 

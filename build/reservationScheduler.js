@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 var node_interval_tree_1 = require("node-interval-tree");
 var moment = require("moment");
-// Consume input json file parsing date strings into Date objects
+// Consume input json file and parse date strings into Moment date objects
+// Moment.js wraps native JavaScript dates and exposes a date arithmetic api
 var input = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'), function (key, value) {
     if (key === 'startDate')
         return moment(value);
@@ -17,7 +18,7 @@ var availableCampsites = [];
 // Iterate over campsites and check to see if they are able to accommodate a new reservation with the search criteria without producing a 1 day gap 
 campsites.forEach(function (campsite) {
     var campsiteReservations = reservations.filter(function (r) { return r.campsiteId === campsite.id; });
-    // Hydate an interval tree with the existing campsite reservations
+    // Hydrate an interval tree with the existing campsite reservations
     var intervalTree = new node_interval_tree_1.default();
     campsiteReservations.forEach(function (res) { return intervalTree.insert(res.startDate.valueOf(), res.endDate.valueOf(), res); });
     // Search the tree for overlapping intervals for the given search query.
